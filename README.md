@@ -1,7 +1,8 @@
 ## NeuFusion: A Unified and Efficient Neural Radiance Field Framework for Static and Dynamic Scenes
-**This is my bachelor degree final project.**
+NeuFusion: 
+This is my bachelor degree graduation design.
 
-### Project Archetecture
+### 项目结构
 ``` python
 # 项目结构
 # nerf_fusion/
@@ -31,3 +32,18 @@
 # │   └── resource_monitor.py    # 资源监控
 # └── main.py                    # 主入口
 ```
+### 功能与实现介绍
+1. 多帧输入与特征提取对齐：通过MultiFrameDataset和FeatureExtractor实现。
+2. 光流估计与时空一致性分析：通过OpticalFlowEstimator和ConsistencyAnalyzer实现。
+3. 八叉树构建与动态场景解耦：通过OctreeBuilder和SceneDecomposer实现。
+4. 梯度分析与自适应采样：通过AdaptiveSampler和各种采样策略实现。
+5. 自适应渲染管线：通过RenderingPipeline和体渲染函数实现。
+6. 损失计算与参数更新：通过compute_loss和Trainer实现。
+7. 资源调度与反馈优化：通过ResourceMonitor实现。
+
+### 算法与实现介绍
+#### 1. 多帧输入
+#### 2. 动态场景/静态场景
+#### 3. 八叉树构建
+#### 4. 自适应渲染管线
+#### 5. 光流估计与时空一致性分析
