@@ -1,2 +1,38 @@
-python=3.9
-# tensorboard
+# NeRF 项目依赖
+# 适用于 CUDA 11.7 环境
+# 最后更新：2025-04-17
+
+# PyTorch 和相关库
+--find-links https://download.pytorch.org/whl/torch_stable.html
+torch==2.0.1+cu117  # 深度学习框架
+torchvision==0.15.2+cu117  # 图像处理工具
+tensorboard==2.13.0  # 训练可视化
+
+# 数据处理
+numpy==1.24.3  # 数值计算
+scipy==1.10.1  # 科学计算
+scikit-image==0.21.0  # 高级图像处理
+
+# 图像 I/O
+opencv-python==4.7.0.72  # 计算机视觉库
+imageio==2.31.1  # 图像读写
+imageio-ffmpeg==0.4.8  # 视频处理
+pillow==10.0.0  # 图像处理
+
+# 进度和可视化
+tqdm==4.65.0  # 进度条
+matplotlib==3.7.1  # 2D 绘图
+plotly==5.15.0  # 交互式可视化
+
+# 3D 处理
+trimesh==3.22.4  # 3D 网格处理
+open3d==0.17.0  # 点云处理
+pyrender==0.1.45  # 3D 渲染
+
+# 相机标定（可选）
+pycolmap==0.3.0  # 结构光重建
+
+# 实用工具
+pyyaml==6.0.1  # 配置文件解析
+configargparse==1.5.5  # 命令行参数处理
+lpips==0.1.4  # 感知相似度度量
