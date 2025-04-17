@@ -1,0 +1,103 @@
+# NeRF融合方案配置文件
+
+# 模型配置
+model:
+  # 特征提取与对齐模块
+  feature_extractor:
+    input_channels: 3
+    feature_dim: 64
+    alignment:
+      feature_dim: 64
+      num_heads: 4
+      dropout: 0.1
+  
+  # 光流估计与时空一致性分析
+  optical_flow:
+    input_dim: 128
+    consistency:
+      input_dim: 256
+  
+  # 八叉树构建
+  octree:
+    max_depth: 8
+    min_voxel_size: 0.01
+    feature_dim: 32
+  
+  # 动态场景解耦
+  scene_decomposer:
+    input_dim: 65  # feature_dim + 1 (consistency)
+    feature_dim: 64
+    output_dim: 32
+  
+  # 自适应采样策略
+  adaptive_sampler:
+    n_samples: 64
+    n_importance: 64
+    perturb: 1.0
+    gradient_based: true
+    input_dim: 6  # position (3) + direction (3)
+    near: 0.1
+    far: 10.0
+  
+  # 静态MLP
+  static_mlp:
+    input_dim: 6  # position (3) + direction (3)
+    hidden_dims: [256, 256, 256, 256]
+    output_dim: 4  # RGB (3) + sigma (1)
+  
+  # 动态MLP
+  dynamic_mlp:
+    input_dim: 7  # position (3) + direction (3) + time (1)
+    hidden_dims: [256, 256, 256, 256]
+    output_dim: 5  # RGB (3) + sigma (1) + blend weight (1)
+
+# 数据配置
+data:
+  frame_window: 3  # 每个样本的帧数
+  transform: null   # 数据变换
+
+# 训练配置
+training:
+  batch_size: 1024
+  num_epochs: 300
+  learning_rate: 5.0e-4
+  lr_decay_rate: 0.1
+  lr_decay_steps: 50000
+  resume: null  # 恢复训练的检查点路径
+  num_workers: 4
+  log_freq: 10  # 日志记录频率
+  vis_freq: 100  # 可视化频率
+  save_freq: 10  # 保存检查点频率
+  eval_freq: 10  # 评估频率
+  resource_monitor_freq: 50  # 资源监控频率
+  gpu_memory_threshold: 90  # GPU内存阈值
+  sample_reduction: 16  # 采样点减少数量
+  min_samples: 32  # 最小采样点数
+  
+  # 损失函数配置
+  loss:
+    rgb_loss_type: l1  # RGB损失类型: l1, l2, huber
+    rgb_weight: 1.0  # RGB损失权重
+    consistency_weight: 0.1  # 一致性损失权重
+    depth_weight: 0.05  # 深度损失权重
+    use_consistency_loss: true  # 是否使用一致性损失
+    use_depth_loss: true  # 是否使用深度损失
+    huber_delta: 0.1  # Huber损失的delta参数
+
+# 渲染配置
+rendering:
+  chunk_size: 4096  # 渲染块大小
+  height: 400  # 渲染高度
+  width: 400  # 渲染宽度
+
+# 资源监控配置
+resource:
+  monitor_interval: 2.0  # 监控间隔（秒）
+  print_stats: false  # 是否打印资源统计
+  gpu_memory_high_threshold: 85  # GPU内存高阈值
+  gpu_util_low_threshold: 30  # GPU利用率低阈值
+  cpu_high_threshold: 80  # CPU高阈值
+
+# 评估配置
+eval:
+  eval_vis_freq: 5  # 评估可视化频率
