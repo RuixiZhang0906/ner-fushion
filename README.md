@@ -47,3 +47,62 @@ This is my bachelor degree graduation design.
 #### 3. 八叉树构建
 #### 4. 自适应渲染管线
 #### 5. 光流估计与时空一致性分析
+
+### 训练与推理
+#### 训练
+
+``` bash
+python main.py --mode render --data_dir ./data/nerf_synthetic/lego --output_dir ./output/lego --ckpt_path ./output/lego/checkpoints/model_latest.pth
+```
+
+#### 推理(渲染)
+
+``` bash
+python main.py --mode render --data_dir ./data/nerf_synthetic/lego --output_dir ./output/lego --ckpt_path ./output/lego/checkpoints/model_latest.pth
+```
+
+##### 渲染的参数介绍
+
+``` bash
+python main.py --mode render --data_dir ./data/nerf_synthetic/lego --output_dir ./output/lego/renders \
+  --ckpt_path ./output/lego/checkpoints/model_latest.pth \
+  --render_only \
+  --render_test \
+  --render_video \
+  --video_factor 4 \
+  --N_samples 128 \
+  --chunk 4096
+```
+
+#### 不同渲染模式示例
+
+1. 渲染测试集图像
+``` bash
+python main.py --mode render --data_dir ./data/nerf_synthetic/lego --output_dir ./output/lego/test_renders \
+  --ckpt_path ./output/lego/checkpoints/model_latest.pth \
+  --render_test
+```
+
+2. 生成360度旋转视频
+``` bash
+python main.py --mode render --data_dir ./data/nerf_synthetic/lego --output_dir ./output/lego/video \
+  --ckpt_path ./output/lego/checkpoints/model_latest.pth \
+  --render_video \
+  --video_factor 2
+```
+
+3. 渲染自定义视角
+``` bash
+python main.py --mode render --data_dir ./data/nerf_synthetic/lego --output_dir ./output/lego/custom_views \
+  --ckpt_path ./output/lego/checkpoints/model_latest.pth \
+  --render_poses_file ./custom_poses.json\
+```
+
+4. 高质量渲染（更多采样点）
+``` bash
+python main.py --mode render --data_dir ./data/nerf_synthetic/lego --output_dir ./output/lego/high_quality \
+  --ckpt_path ./output/lego/checkpoints/model_latest.pth \
+  --N_samples 256 \
+  --N_importance 256 \
+  --chunk 2048
+```
