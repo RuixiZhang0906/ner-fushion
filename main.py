@@ -20,13 +20,78 @@ def main():
     
     # 初始化资源监控器
     resource_monitor = ResourceMonitor(config.resource)
-    
+
     # 加载数据集
-    dataset = MultiFrameDataset(
-        data_dir=args.data_dir,
-        frame_window=config.data.frame_window,
-        transform=config.data.transform
-    )
+    if config.data.dataset_type == 'blender':
+        # 使用 BlenderDataset
+        train_dataset = BlenderDataset(
+            data_dir=args.data_dir,
+            split='train',
+            img_wh=config.data.img_wh,
+            transform=config.data.transform
+        )
+        
+        val_dataset = BlenderDataset(
+            data_dir=args.data_dir,
+            split='val',
+            img_wh=config.data.img_wh,
+            transform=config.data.transform
+        )
+        
+        test_dataset = BlenderDataset(
+            data_dir=args.data_dir,
+            split='test',
+            img_wh=config.data.img_wh,
+            transform=config.data.transform
+        )
+    elif config.data.dataset_type == 'multi_view_blender':
+        # 使用 MultiViewBlenderDataset
+        train_dataset = MultiViewBlenderDataset(
+            data_dir=args.data_dir,
+            split='train',
+            img_wh=config.data.img_wh,
+            transform=config.data.transform,
+            num_views=config.data.frame_window
+        )
+        
+        val_dataset = MultiViewBlenderDataset(
+            data_dir=args.data_dir,
+            split='val',
+            img_wh=config.data.img_wh,
+            transform=config.data.transform,
+            num_views=config.data.frame_window
+        )
+        
+        test_dataset = MultiViewBlenderDataset(
+            data_dir=args.data_dir,
+            split='test',
+            img_wh=config.data.img_wh,
+            transform=config.data.transform,
+            num_views=config.data.frame_window
+        )
+    else:
+        # 使用原来的 MultiFrameDataset
+        train_dataset = MultiFrameDataset(
+            data_dir=args.data_dir,
+            split='train',
+            frame_window=config.data.frame_window,
+            transform=config.data.transform
+        )
+        
+        val_dataset = MultiFrameDataset(
+            data_dir=args.data_dir,
+            split='val',
+            frame_window=config.data.frame_window,
+            transform=config.data.transform
+        )
+        
+        test_dataset = MultiFrameDataset(
+            data_dir=args.data_dir,
+            split='test',
+            frame_window=config.data.frame_window,
+            transform=config.data.transform
+        )
+
     
     # 初始化模型
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
