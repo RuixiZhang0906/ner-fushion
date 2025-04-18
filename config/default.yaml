@@ -101,3 +101,9 @@ resource:
 # 评估配置
 eval:
   eval_vis_freq: 5  # 评估可视化频率
+
+# 数据集选择
+data:
+  dataset_type: blender  # 可选值: 'blender', 'multi_view_blender', 'original'
+  img_wh: [800, 800]  # 图像宽高
+  transform: null  # 数据变换
